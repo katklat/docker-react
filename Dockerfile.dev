@@ -1,0 +1,17 @@
+# run this file with
+# $ docker build -f Dockerfile.dev .
+FROM node:alpine
+WORKDIR '/app'
+COPY package.json .
+RUN npm install
+COPY . .
+CMD ["npm", "run", "start"]
+
+# start container:
+# docker run -it -p 3000:3000 CONTAINER_ID
+
+# to detect changes:
+# in root directory
+# winpty docker run -it -p 3000:3000 -v /app/node_modules -v "/$(PWD)":/app CONTAINER_ID
+# docker run -it -p 3000:3000 -v /app/node_modules -v ~/PROJECT_DIRECTORY:/app CONTAINER_ID
+# colon maps folder inside container to folder outside container
