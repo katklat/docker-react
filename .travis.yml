@@ -7,4 +7,24 @@ before_install:
   - docker build -t docker-react -f Dockerfile.dev .
 
 script:
-  - docker run -e CI=true docker-react npm run test
+  - docker run -e CI=true docker-react npm run test -- --watchAll=false
+
+deploy:
+  provider: elasticbeanstalk
+  # copy region,app and env from beanstalk url
+  region: ""
+  app: "docker-react"
+  env: "Docker-env"
+  # s3
+  bucket_name: ""
+  bucket_path: "docker-react"
+
+#deploy when master branch is updated
+  on:
+    branch: master
+  #access_key_id:
+  #secret_access_key:
+    #secure:""
+
+# aim manages API keys
+# stash keys with travis as Environment Variables
